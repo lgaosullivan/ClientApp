@@ -1,0 +1,97 @@
+﻿@page
+@model IndexModel
+
+@Html.AntiForgeryToken()
+
+@section scripts {
+    <script>
+        //getFruitName();
+
+        $(".submit").click(function () {
+            alert('in on click')
+            //var person = { "BookName": "Andrew", "Author": "Lock" };
+
+            var bookName = $("#BookName").val();
+            var author = $("#Author").val();
+            var registration = $("#Registration").val();
+            var description = $("#Description").val();
+            var thriller = $("#Thriller").val();
+            var history = $("#History").val();
+            var biography = $("#Biography").val();
+            var drama = $("#Drama").val();
+
+            var person = {
+                //"Id": 3,
+                //"CategoryId": 1,
+                "BookName": bookName,
+                "Author": author,
+                "Categories": {
+                    //"CategoryId": 1,
+                    "History": false
+                }
+            };
+
+            
+
+            //var book = {
+            //    "BookName": bookName,
+            //    "Author": author,
+            //    "Registration": registration
+            //    //,
+            //    //Phone: phone
+            //};
+
+            $.ajax({
+                url: 'https://localhost:44318/api/book/create',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                //headers = {
+                //    RequestVerificationToken:
+                //        $('input:hidden[name="__RequestVerificationToken"]').val()
+                //},
+                data: JSON.stringify(person)
+                //data: JSON.stringify(book)
+            })
+                .done(function (result) {
+                    alert('done')
+                    //… rest of code left out
+                })
+        })
+    </script>
+
+}
+        <div>
+            <form method="post">
+                <fieldset>
+                    <legend>Add Book</legend>
+                    <div>
+                        <label for="BookName">Book Name:</label>
+                        <input id="BookName" type="text" name="BookName" value="" />
+                        @Html.ValidationMessage("bookname")
+                    </div>
+                    <div>
+                        <label for="Author">Author:</label>
+                        <input id="Author" type="text" name="Author" value="" />
+                        @Html.ValidationMessage("contactname")
+                    </div>
+                    <div>
+                        <label for="Employees">Employee Count:</label>
+                        <input type="text" name="Employees" value="" />
+                        @Html.ValidationMessage("employees")
+                    </div>
+                    <div>
+                        <span>
+                        <label for="History">History:</label>
+                        <input 
+                               id="history"
+                               name="history"
+                               type="radio"
+                               value="history" />
+                    </div>
+                    <div>
+                        <label>&nbsp;</label>
+                        <input type="submit" value="Submit" class="submit" />
+                    </div>
+                </fieldset>
+            </form>
+        </div>
