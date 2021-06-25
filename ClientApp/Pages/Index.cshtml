@@ -5,11 +5,9 @@
 
 @section scripts {
     <script>
-        //getFruitName();
 
-        $(".submit").click(function () {
-            alert('in on click')
-            //var person = { "BookName": "Andrew", "Author": "Lock" };
+        $(".add").click(function () {
+            alert('start add')
 
             var bookName = $("#BookName").val();
             var author = $("#Author").val();
@@ -20,78 +18,124 @@
             var biography = $("#Biography").val();
             var drama = $("#Drama").val();
 
-            var person = {
-                //"Id": 3,
-                //"CategoryId": 1,
+            var book = {
                 "BookName": bookName,
                 "Author": author,
+                "Registration": registration,
+                "Description": description,
                 "Categories": {
-                    //"CategoryId": 1,
-                    "History": false
+                    "Thriller": thriller,
+                    "History": history,
+                    "Biography": biography,
+                    "Drama": drama,
                 }
             };
 
-            
-
-            //var book = {
-            //    "BookName": bookName,
-            //    "Author": author,
-            //    "Registration": registration
-            //    //,
-            //    //Phone: phone
-            //};
-
             $.ajax({
-                url: 'https://localhost:44318/api/book/create',
+                //need to move url to app settings
+                url: 'https://localhost:5001/api/book/create',
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
-                //headers = {
-                //    RequestVerificationToken:
-                //        $('input:hidden[name="__RequestVerificationToken"]').val()
-                //},
-                data: JSON.stringify(person)
-                //data: JSON.stringify(book)
+                data: JSON.stringify(book)
             })
                 .done(function (result) {
                     alert('done')
-                    //… rest of code left out
+                })
+        })
+
+        $(".update").click(function () {
+            alert('alert update')
+
+            var bookName = $("#BookName").val();
+            var author = $("#Author").val();
+            var registration = $("#Registration").val();
+            var description = $("#Description").val();
+            var thriller = $("#Thriller").val();
+            var history = $("#History").val();
+            var biography = $("#Biography").val();
+            var drama = $("#Drama").val();
+
+            var book = {
+                "BookName": bookName,
+                "Author": author,
+                "Registration": registration,
+                "Description": description,
+                "Categories": {
+                    "Thriller": thriller,
+                    "History": history,
+                    "Biography": biography,
+                    "Drama": drama,
+                }
+            };
+
+            $.ajax({
+                //need to move url to app settings
+                url: 'https://localhost:5001/api/book/create',
+                type: 'PUT',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(book)
+            })
+                .done(function (result) {
+                    alert('done')
                 })
         })
     </script>
 
 }
-        <div>
-            <form method="post">
-                <fieldset>
-                    <legend>Add Book</legend>
-                    <div>
-                        <label for="BookName">Book Name:</label>
-                        <input id="BookName" type="text" name="BookName" value="" />
-                        @Html.ValidationMessage("bookname")
-                    </div>
-                    <div>
-                        <label for="Author">Author:</label>
-                        <input id="Author" type="text" name="Author" value="" />
-                        @Html.ValidationMessage("contactname")
-                    </div>
-                    <div>
-                        <label for="Employees">Employee Count:</label>
-                        <input type="text" name="Employees" value="" />
-                        @Html.ValidationMessage("employees")
-                    </div>
-                    <div>
-                        <span>
-                        <label for="History">History:</label>
-                        <input 
-                               id="history"
-                               name="history"
-                               type="radio"
-                               value="history" />
-                    </div>
-                    <div>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<div>
+    <form method="post">
+        <fieldset>
+            <legend>Add or Update Book</legend>
+            <div>
+                <label for="BookName">Book Name:</label>
+                <input id="BookName" type="text" name="BookName" value="" />
+                @Html.ValidationMessage("bookname")
+            </div>
+            <div>
+                <label for="Author">Author:</label>
+                <input id="Author" type="text" name="Author" value="" />
+                @Html.ValidationMessage("author")
+            </div>
+            <div>
+                <label for="Registration">Registration:</label>
+                <input type="datetime" name="Registration" value="" />
+                @Html.ValidationMessage("registration")
+            </div>
+            <div>
+                <label for="Description">Description:</label>
+                <input type="text" name="Description" value="" />
+                @Html.ValidationMessage("registration")
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="thiller" value="option1">
+                <label class="form-check-label" for="inlineRadio1">Thiller</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="history" value="option2">
+                <label class="form-check-label" for="inlineRadio2">History</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="biography" value="option3">
+                <label class="form-check-label" for="inlineRadio3">Biography</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="drama" value="option3">
+                <label class="form-check-label" for="inlineRadio3">Drama</label>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
                         <label>&nbsp;</label>
-                        <input type="submit" value="Submit" class="submit" />
+                        <input type="submit" value="Add" class="add" />
+                        <input type="submit" value="Update" class="update" />
                     </div>
-                </fieldset>
-            </form>
-        </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
