@@ -1,39 +1,49 @@
 ﻿@page
 @model IndexModel
 
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
 @Html.AntiForgeryToken()
 
 @section scripts {
     <script>
+        //var bookName = $("#BookName").val();
+        //var author = $("#Author").val();
+        //var registration = $("#Registration").val();
+        //var description = $("#Description").val();
+        //var thriller = $("#Thriller").val();
+        //var history = $("#History").val();
+        //var biography = $("#Biography").val();
+        //var drama = $("#Drama").val();
+
+        const BaseUrl = @Json.Serialize(@Configuration.GetSection("ApiUrls").GetSection("commonUrl").Value);
 
         $(".add").click(function () {
             alert('start add')
-
             var bookName = $("#BookName").val();
             var author = $("#Author").val();
             var registration = $("#Registration").val();
+            //var registration = null;
             var description = $("#Description").val();
             var thriller = $("#Thriller").val();
             var history = $("#History").val();
             var biography = $("#Biography").val();
             var drama = $("#Drama").val();
-
             var book = {
                 "BookName": bookName,
                 "Author": author,
                 "Registration": registration,
                 "Description": description,
-                "Categories": {
+                "Categories": [{
                     "Thriller": thriller,
                     "History": history,
                     "Biography": biography,
                     "Drama": drama,
-                }
+                }]
             };
-
             $.ajax({
-                //need to move url to app settings
-                url: 'https://localhost:5001/api/book/create',
+                url: BaseUrl + 'create',
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(book)
@@ -42,10 +52,9 @@
                     alert('done')
                 })
         })
-
         $(".update").click(function () {
             alert('alert update')
-
+            var id = $("#Id").val();
             var bookName = $("#BookName").val();
             var author = $("#Author").val();
             var registration = $("#Registration").val();
@@ -54,23 +63,21 @@
             var history = $("#History").val();
             var biography = $("#Biography").val();
             var drama = $("#Drama").val();
-
             var book = {
+                "Id": id,
                 "BookName": bookName,
                 "Author": author,
                 "Registration": registration,
                 "Description": description,
-                "Categories": {
+                "Categories": [{
                     "Thriller": thriller,
                     "History": history,
                     "Biography": biography,
                     "Drama": drama,
-                }
+                }]
             };
-
             $.ajax({
-                //need to move url to app settings
-                url: 'https://localhost:5001/api/book/create',
+                url: BaseUrl + id + '/update',
                 type: 'PUT',
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(book)
@@ -90,6 +97,11 @@
         <fieldset>
             <legend>Add or Update Book</legend>
             <div>
+                <label for="Id">Id:</label>
+                <input id="Id" type="text" name="Id" value="" />
+                @Html.ValidationMessage("id")
+            </div>
+            <div>
                 <label for="BookName">Book Name:</label>
                 <input id="BookName" type="text" name="BookName" value="" />
                 @Html.ValidationMessage("bookname")
@@ -101,12 +113,12 @@
             </div>
             <div>
                 <label for="Registration">Registration:</label>
-                <input type="datetime" name="Registration" value="" />
+                <input id="Registration" type="datetime" name="Registration" value="" />
                 @Html.ValidationMessage("registration")
             </div>
             <div>
                 <label for="Description">Description:</label>
-                <input type="text" name="Description" value="" />
+                <input id="Description" type="text" name="Description" value="" />
                 @Html.ValidationMessage("registration")
             </div>
 
